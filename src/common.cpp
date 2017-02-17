@@ -45,6 +45,9 @@ void init() {
         disable_saved_application_state_osx();
     #endif
 
+    #if defined(unix) || defined(__unix__) || defined(__unix)
+        setlocale(LC_ALL, "zh_CN.UTF-8");
+    #endif
     glfwSetErrorCallback(
         [](int error, const char *descr) {
             if (error == GLFW_NOT_INITIALIZED)

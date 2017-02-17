@@ -67,7 +67,11 @@ Theme::Theme(NVGcontext *ctx) {
 
 	//mFontNormal = nvgCreateFontMem(ctx, "sans", roboto_regular_ttf,
 	//                               roboto_regular_ttf_size, 0);
+#ifdef _WIN32
 	mFontNormal = nvgCreateFont(ctx, "sans", "C:\\Windows\\Fonts\\simhei.ttf");
+#else
+    mFontNormal = nvgCreateFont(ctx, "sans", "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc");
+#endif
     mFontBold = nvgCreateFontMem(ctx, "sans-bold", roboto_bold_ttf,
                                  roboto_bold_ttf_size, 0);
     mFontIcons = nvgCreateFontMem(ctx, "icons", entypo_ttf,

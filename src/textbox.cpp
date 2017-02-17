@@ -23,7 +23,7 @@ BSD-style license that can be found in the LICENSE.txt file.
 #include <iostream>
 #include <codecvt>
 
-static std::size_t UTF8Length(std::size_t pos, const std::string & mValueTemp)
+static int UTF8Length(int pos, const std::string & mValueTemp)
 {
 	uint8_t lead = mValueTemp[pos];
 	if (lead < 0x80)
@@ -38,12 +38,12 @@ static std::size_t UTF8Length(std::size_t pos, const std::string & mValueTemp)
 		return 0;
 }
 
-static std::size_t UTF8Next(std::size_t pos, const std::string & mValueTemp)
+static int UTF8Next(int pos, const std::string & mValueTemp)
 {
-	return std::min(pos + UTF8Length(pos, mValueTemp), mValueTemp.length());
+	return std::min(pos + UTF8Length(pos, mValueTemp), (int)mValueTemp.length());
 }
 
-static std::size_t UTF8Advance(std::size_t pos, std::size_t n, const std::string & mValueTemp)
+static int UTF8Advance(int pos, int n, const std::string & mValueTemp)
 {
 	for (auto len = mValueTemp.length(); n > 0 && pos < len; n--) {
 		pos = UTF8Next(pos, mValueTemp);
@@ -52,7 +52,7 @@ static std::size_t UTF8Advance(std::size_t pos, std::size_t n, const std::string
 	return pos;
 }
 
-static std::size_t UTF8Prior(std::size_t pos, const std::string & mValueTemp)
+static int UTF8Prior(int pos, const std::string & mValueTemp)
 {
 	--pos;
 	while (pos >= 0 && static_cast<uint8_t>(mValueTemp[pos]) >> 6 == 0x2) {
@@ -61,9 +61,9 @@ static std::size_t UTF8Prior(std::size_t pos, const std::string & mValueTemp)
 	return pos;
 }
 
-static std::size_t UTF8Distance(std::size_t begin, int end, std::string & mValueTemp)
+static int UTF8Distance(int begin, int end, std::string & mValueTemp)
 {
-	std::size_t pos = begin, cnt = 0;
+	int pos = begin, cnt = 0;
 	while (pos < end) {
 		pos = UTF8Next(pos, mValueTemp);
 		++cnt;
@@ -71,7 +71,7 @@ static std::size_t UTF8Distance(std::size_t begin, int end, std::string & mValue
 	return cnt;
 }
 
-static std::size_t moveCursorUTF8(std::size_t prev, int delta, std::string & mValueTemp)
+static int moveCursorUTF8(int prev, int delta, std::string & mValueTemp)
 {
 	auto pos = prev;
 	if (delta > 0) {
