@@ -110,7 +110,7 @@ void mainloop(int refresh) {
         }
 
         /* Process events once more */
-        glfwPollEvents();
+        //glfwPollEvents();
     } catch (const std::exception &e) {
         std::cerr << "Caught exception in main loop: " << e.what() << std::endl;
         leave();
